@@ -3,14 +3,15 @@
 """
 Created on Mon Jun  8 17:08:16 2020
 
-@author: nanetsu
+@author: Yue He
 """
 
 
 import pandas as pd
 import numpy as np
 from scipy.stats import ortho_group
-##1.超参数产生100个回归数据集10000*40
+##1.超参数
+##产生100个回归数据集1000*40
 n_dataset=100
 n_sample=100
 n_feature=40
@@ -28,7 +29,7 @@ def data_generator(n_feature,n_sample):
 
         
 ##2.定义生成目标函数的函数
-#产生从1到n的随机置换
+#2.1产生从1到n的随机置换
 def RandInt(i,j):
 	if i==0:
 		return np.random.randint(0,10000)%(j+1)
@@ -51,7 +52,7 @@ def zh(a,n):
 	 	#print(a1,a2)
 	#print(a)
 	return a
- 
+#2.2 模拟随机协方差矩阵
 def cov_matrix(n_l):
     ##创建一个随机正交矩阵
         
@@ -64,8 +65,9 @@ def cov_matrix(n_l):
     D_l=np.diag(d_l)
     #三个矩阵相乘
     return np.dot(np.dot(a,D_l),a.T)
-    
-def h_l(n_l,x_l):#l代表变量的个数
+
+#2.3计算样本的每个小函数的值
+def h_l(n_l,x_l):
     mu_l=np.random.normal(0,1,n_l)
     a=x_l-mu_l
     V_inverse=np.linalg.inv(cov_matrix(n_l))
@@ -100,15 +102,16 @@ def finaldata(n_feature,n_sample,n_true):
     sim_data['F_value']=true_value
     return sim_data
 
-
-d1=finaldata(n_feature,n_sample,n_true)
-##生成100个这样的数据集
-
-def dataset_generator(n_dataset,n_feature,n_sample,n_true):    
+def dataset_generator(n_dataset,n_feature,n_sample,n_true):
     dataset={}
     for i in range(n_dataset):
         dataname='fdata'+str(i+1)
         dataset[dataname]=finaldata(n_feature,n_sample,n_true)
-        
     return dataset
-        
+ 
+## 4.开始使用函数
+#4.1生成一个数据集
+d1=finaldata(n_feature,n_sample,n_true)
+
+##生成100个这样的数据集
+dataset_generator(n_dataset,n_feature,n_sample,n_true)
