@@ -1,4 +1,4 @@
-# random_generator_function
+# random_function_generator
 This python file is used to generate random target functions and simulate dataset with specific signal and noise. 
 
 # Background
